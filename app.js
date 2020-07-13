@@ -1,14 +1,30 @@
+const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
+const Blog = require('./models/blogs');
+
+const app = express();
+
+const PORT = process.env.PORT;
+
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.lhovv.gcp.mongodb.net/net_ninja>?retryWrites=true&w=majority`;
+// express app
+mongoose
+  .connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(response =>
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+  )
+  .catch(err => console.log(err));
 
 const blogs = [
   { title: 'Blog One', snippet: 'Hello World' },
   { title: 'Blog Two', snippet: 'Hello Country' },
   { title: 'Blog Three', snippet: 'Hello State' },
 ];
-// express app
-const app = express();
-const PORT = 3000;
 
 // morgan for logs
 //app.use(morgan('common'));
@@ -25,14 +41,31 @@ app.use(express.static('public'));
 //register view engine
 app.set('view engine', 'ejs');
 
-//  default port for requests
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+//routes
+app.get('/', async (req, res) => {
+  try {
+    const response = await Blog.find();
+    res.render('index', { title: 'Main', blogs: response });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-//routes
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Main', blogs });
+app.get('/add-blog', async (req, res) => {
+  const blog = new Blog({
+    title: 'new blog #2',
+    snippet: 'about my new blog',
+    body: 'more about my new blog',
+  });
+  try {
+    response = await blog.save();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+  }
+});
+app.get('/all-blogs/', (req, res) => {
+  res.redirect('/')
 });
 
 app.get('/about', (req, res) => {
