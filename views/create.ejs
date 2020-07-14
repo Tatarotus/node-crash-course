@@ -3,18 +3,16 @@
 <%- include('./partials/header.ejs') %>
 <div class="blogs create">
   <h1>Create new blog!</h1>
-  <form>
+    <form action="/blogs" method="POST">
     <label for="blogTitle">Blog Title:</label>
     </br>
-    <input type="text" id="blogTitle">
+    <input type="text" id="blogTitle" name="title">
     </br>
     <label for="blogContent">Blog Content:</label>
     </br>
-    <textarea id="blogContent" name="content" cols="30" rows="10"></textarea>
+    <textarea id="blogContent" name="snippet" cols="30" rows="10" ></textarea>
     </br>
     <input type="submit" value"Submit">
   </form>
 </div>
 <%- include('./partials/footer.ejs') %>
-</body>
-</html>

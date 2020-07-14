@@ -6,7 +6,7 @@ const blogSchema = new Schema(
   {
     title: requiredString,
     snippet: requiredString,
-    body: requiredString,
+    //body: requiredString,
   },
   { timestamps: true }
 );

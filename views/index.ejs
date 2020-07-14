@@ -6,8 +6,10 @@
     <% if(blogs.length > 0) { %>
       <% blogs.forEach((blog) => { %>
         <div class="content">
-          <h1><%= blog.title %></h1>
-          <p><%= blog.snippet %></p>
+          <a href="/blogs/<%= blog._id %>" >
+            <h1><%= blog.title %></h1>
+            <p><%= blog.snippet %></p>
+          </a>
         </div>
       <% }) %>
     <% } else { %>
@@ -15,5 +17,3 @@
     <% } %>
   </div>
   <%- include('./partials/footer.ejs') %>
-</body>
-</html>
